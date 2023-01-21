@@ -51,6 +51,8 @@ def load_model_from_config(config, ckpt, vae_ckpt=None, verbose=False):
         }
     model = instantiate_from_config(config.model)
     m, u = model.load_state_dict(sd, strict=False)
+    print("Halving model precision")
+    model.half()
     if len(m) > 0 and verbose:
         print("missing keys:")
         print(m)

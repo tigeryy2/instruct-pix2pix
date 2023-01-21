@@ -537,6 +537,7 @@ class LatentDiffusion(DDPM):
         self.first_stage_model.train = disabled_train
         for param in self.first_stage_model.parameters():
             param.requires_grad = False
+        self.first_stage_model.half()
 
     def instantiate_cond_stage(self, config):
         if not self.cond_stage_trainable:
@@ -558,6 +559,7 @@ class LatentDiffusion(DDPM):
             assert config != '__is_unconditional__'
             model = instantiate_from_config(config)
             self.cond_stage_model = model
+        self.cond_stage_model.half()
 
     def _get_denoise_row_from_list(self, samples, desc='', force_no_decoder_quantization=False):
         denoise_row = []
